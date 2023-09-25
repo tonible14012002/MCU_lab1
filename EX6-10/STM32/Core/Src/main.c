@@ -81,8 +81,8 @@ void clearNumberOnClock(int num){
 	HAL_GPIO_WritePin(GPIOA, leds_array[num], GPIO_PIN_SET);
 }
 
-void formatClock(int* second, int* min, int* hour){
-   //Format numbers
+void runClock(int* second, int* min, int* hour){
+   //Format numbers, clear old state led
    if(*second == 59){
 	   *second = 0;
 	   clearNumberOnClock(LAST_LEDS_ARR_INDEX);
@@ -95,13 +95,13 @@ void formatClock(int* second, int* min, int* hour){
 
    if(*hour >= 24) *hour = 0;
 
-   //Format display
+   // clear old state led
    if(*second != 0 && *second % LED_STATE_LEVEL == 0){
-	   clearNumberOnClock(floor(*second/LED_STATE_LEVEL)-1);
-   }
-   if(*min != 0 && *min % LED_STATE_LEVEL == 0){
-		   clearNumberOnClock(floor(*min/LED_STATE_LEVEL)-1);
-	   }
+   	   clearNumberOnClock(floor(*second/LED_STATE_LEVEL)-1);
+      }
+      if(*min != 0 && *min % LED_STATE_LEVEL == 0){
+   		   clearNumberOnClock(floor(*min/LED_STATE_LEVEL)-1);
+      }
 }
 int main(void)
 {
@@ -134,8 +134,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-
-  int led_index = 0;
+// for ex6
+//  int led_index = 0;
   clearAllClock();
 
   //For Ex10
@@ -144,31 +144,31 @@ int main(void)
   int second = 50;
   while (1)
   {
-////	   	   Testing Ex6:
+//
+//  	   Testing Ex6:
 //	   	   HAL_GPIO_WritePin(GPIOA, leds_array[led_index], GPIO_PIN_RESET);
 //		   led_index = (led_index + 1);
 //		   HAL_Delay(SECOND);
-//
-////	 	   Testing Ex8:
-	 	   setNumberOnClock(4);
-	 	   HAL_Delay(SECOND);
 
-//
-////	   	   Testing Ex9:
+
+//	 	   Testing Ex8:
+//	 	   setNumberOnClock(4);
+//	 	   HAL_Delay(SECOND);
+
+
+//	   	   Testing Ex9:
 //		   setNumberOnClock(4);
 //		   HAL_Delay(SECOND);
 //		   clearNumberOnClock(4);
 //		   HAL_Delay(SECOND);
-//
-//
-////	      Testing Ex10:
-//		  setNumberOnClock(hour % LEDS_NUMBER);
-//		  setNumberOnClock((int)floor(minute / LED_STATE_LEVEL));
-//		  setNumberOnClock((int)floor(second / LED_STATE_LEVEL));
-//
-//		  HAL_Delay(SECOND);
-//		  formatClock(&second, &minute, &hour);
 
+
+//	      Testing Ex10:
+		  setNumberOnClock(hour % LEDS_NUMBER);
+		  setNumberOnClock((int)floor(minute / LED_STATE_LEVEL));
+		  setNumberOnClock((int)floor(second / LED_STATE_LEVEL));
+		  HAL_Delay(10);
+		  runClock(&second, &minute, &hour);
 
     /* USER CODE END WHILE */
 
